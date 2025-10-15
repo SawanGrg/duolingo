@@ -1,13 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
+import { CreateUserDto } from './dto/createUser.dto';
+import { MessageResponseDto } from 'src/common/messageResponse.dto';
+import { UserService } from './user.service';
+import { GetUserDto } from './dto/getUser.dto';
 
 @Controller('users')
 export default class UserController {
-  // User-related endpoints will be defined here
-  constructor() {}
+  constructor(private readonly userService: UserService) {
+    this.userService = userService;
+  }
 
-  // Define user-related endpoints here
-  @Get('test')
-  testEndpoint() {
-    return { message: 'User endpoint is working!f fine' };
+  @Post('create')
+  public async createUser(
+    @Body() userDto: CreateUserDto,
+  ): Promise<MessageResponseDto> {
+    const res = await this.userService.createUser(userDto);
+    if (res) return { message: 'User created successfully' };
+    return { message: 'User creation failed' };
+  }
+
+  @Get('findAll')
+  public async findAll(): Promise<GetUserDto[]> {
+    return await this.userService.findAll();
   }
 }
