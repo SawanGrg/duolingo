@@ -4,6 +4,7 @@ import { MessageResponseDto } from 'src/common/messageResponse.dto';
 import { UserService } from './user.service';
 import { GetUserDto } from './dto/getUser.dto';
 import { RoleGuard } from 'src/common/guards/role.guard';
+import { RequiredPermissions } from 'src/common/decorators/require.decorator';
 
 @Controller('users')
 export default class UserController {
@@ -12,6 +13,8 @@ export default class UserController {
   }
 
   @Post('create')
+  @UseGuards(RoleGuard)
+  @RequiredPermissions('admin:createUser')
   public async createUser(
     @Body() userDto: CreateUserDto,
   ): Promise<MessageResponseDto> {
@@ -22,6 +25,7 @@ export default class UserController {
 
   @Get('findAll')
   @UseGuards(RoleGuard)
+  @RequiredPermissions('admin:viewUsers')
   public async findAll(): Promise<GetUserDto[]> {
     return await this.userService.findAll();
   }

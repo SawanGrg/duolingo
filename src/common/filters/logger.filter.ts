@@ -11,6 +11,7 @@ export class LoggerMiddleware implements NestMiddleware {
       `[${req.method}] ${req.originalUrl} | Request-ID: ${requestId}`,
     );
     req['metadata'] = { requestId, timestamp: new Date() };
+    console.log('first layer middleware');
     next();
   }
 }
