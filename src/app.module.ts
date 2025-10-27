@@ -6,6 +6,7 @@ import { redisStore } from 'cache-manager-redis-yet';
 import dbConfiguration from './config/db.configuration';
 import cacheConfiguration from './config/cache.configuration';
 import { UserModule } from './modules/user/user.module';
+import { UploadModule } from './modules/file/upload.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { UserModule } from './modules/user/user.module';
       },
     }),
     UserModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
